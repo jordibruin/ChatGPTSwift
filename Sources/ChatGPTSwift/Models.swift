@@ -52,6 +52,17 @@ public enum Role: String, Codable {
     case system = "system"
     case user = "user"
     case assistant = "assistant"
+    
+    var exportName: String {
+        switch self {
+        case .system:
+            return "⚙️"
+        case .user:
+            return "👱"
+        case .assistant:
+            return "🤖"
+        }
+    }
 }
 
 
