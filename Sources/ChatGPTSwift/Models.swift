@@ -46,6 +46,15 @@ public enum Model: String, Codable, _DefaultsSerializable {
     case gpt4 = "gpt-4"
 }
 
+import Foundation
+
+public enum Role: String, Codable {
+    case system = "system"
+    case user = "user"
+    case assistant = "assistant"
+}
+
+
 extension Array where Element == Message {
     
     var contentCount: Int { map { $0.content }.count }
