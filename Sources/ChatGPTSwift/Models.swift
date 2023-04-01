@@ -6,14 +6,35 @@
 //
 
 import Foundation
+import Defaults
 
-public struct Message: Codable {
-    public let role: String
-    public let content: String
-    
-    public init(role: String, content: String) {
+public struct Message: Convertable, Hashable, _DefaultsSerializable, Codable {
+    public var role: Role
+    public var content: String
+    public private(set) var id: UUID
+
+    public init(role: Role, content: String) {
         self.role = role
         self.content = content
+        self.id = UUID()
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case role
+        case content
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        role = try container.decode(Role.self, forKey: .role)
+        content = try container.decode(String.self, forKey: .content)
+        id = UUID()
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(role, forKey: .role)
+        try container.encode(content, forKey: .content)
     }
 }
 
