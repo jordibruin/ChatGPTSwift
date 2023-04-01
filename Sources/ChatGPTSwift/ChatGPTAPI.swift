@@ -14,9 +14,9 @@ import GPTEncoder
     import NIOFoundationCompat
 #endif
 
-public class ChatGPTAPI: @unchecked Sendable {
+class ChatGPTAPI: @unchecked Sendable {
     
-    public enum Constants {
+    enum Constants {
         public static let defaultModel = "gpt-3.5-turbo"
         public static let defaultSystemText = "You're a helpful assistant"
         public static let defaultTemperature = 0.5
@@ -25,7 +25,7 @@ public class ChatGPTAPI: @unchecked Sendable {
     private let urlString = "https://api.openai.com/v1/chat/completions"
     private let apiKey: String
     private let gptEncoder = GPTEncoder()
-    public private(set) var historyList = [Message]()
+    aprivate(set) var historyList = [Message]()
 
     let dateFormatter: DateFormatter = {
         let df = DateFormatter()
@@ -50,7 +50,7 @@ public class ChatGPTAPI: @unchecked Sendable {
         .init(role: .system, content: content)
     }
     
-    public init(apiKey: String) {
+    init(apiKey: String) {
         self.apiKey = apiKey
     }
     
@@ -88,7 +88,7 @@ public class ChatGPTAPI: @unchecked Sendable {
     }
 
 
-    public func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {
+    func sendMessageStream(text: String) async throws -> AsyncThrowingStream<String, Error> {
          var request = self.clientRequest
         request.body = .bytes(try jsonBody(text: text, stream: true))
         
@@ -129,7 +129,7 @@ public class ChatGPTAPI: @unchecked Sendable {
         }
     }
 
-    public func sendMessage(text: String,
+    func sendMessage(text: String,
                             model: String = ChatGPTAPI.Constants.defaultModel,
                             systemText: String = ChatGPTAPI.Constants.defaultSystemText,
                             temperature: Double = ChatGPTAPI.Constants.defaultTemperature) async throws -> String {
@@ -178,7 +178,7 @@ public class ChatGPTAPI: @unchecked Sendable {
         return urlRequest
     }
 
-    public func sendMessageStream(text: String,
+    func sendMessageStream(text: String,
                                   model: String = ChatGPTAPI.Constants.defaultModel,
                                   systemText: String = ChatGPTAPI.Constants.defaultSystemText,
                                   temperature: Double = ChatGPTAPI.Constants.defaultTemperature) async throws -> AsyncThrowingStream<String, Error> {
@@ -223,7 +223,7 @@ public class ChatGPTAPI: @unchecked Sendable {
         }
     }
 
-    public func sendMessage(text: String,
+    func sendMessage(text: String,
                             model: String = ChatGPTAPI.Constants.defaultModel,
                             systemText: String = ChatGPTAPI.Constants.defaultSystemText,
                             temperature: Double = ChatGPTAPI.Constants.defaultTemperature) async throws -> String {
@@ -255,11 +255,11 @@ public class ChatGPTAPI: @unchecked Sendable {
     }
     #endif
     
-    public func deleteHistoryList() {
+    func deleteHistoryList() {
         self.historyList.removeAll()
     }
     
-    public func replaceHistoryList(with messages: [Message]) {
+    func replaceHistoryList(with messages: [Message]) {
         self.historyList = messages
     }
     
