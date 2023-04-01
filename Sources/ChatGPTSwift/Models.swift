@@ -8,12 +8,12 @@
 import Foundation
 import Defaults
 
-public struct Message: Convertable, Hashable, _DefaultsSerializable, Codable {
-    public var role: Role
-    public var content: String
-    public private(set) var id: UUID
+struct Message: Convertable, Hashable, _DefaultsSerializable, Codable {
+    var role: Role
+    var content: String
+    private(set) var id: UUID
 
-    public init(role: Role, content: String) {
+    init(role: Role, content: String) {
         self.role = role
         self.content = content
         self.id = UUID()
@@ -24,14 +24,14 @@ public struct Message: Convertable, Hashable, _DefaultsSerializable, Codable {
         case content
     }
 
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         role = try container.decode(Role.self, forKey: .role)
         content = try container.decode(String.self, forKey: .content)
         id = UUID()
     }
 
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(role, forKey: .role)
         try container.encode(content, forKey: .content)
@@ -40,7 +40,7 @@ public struct Message: Convertable, Hashable, _DefaultsSerializable, Codable {
 
 
 // Enums
-public enum Model: String, Codable, _DefaultsSerializable {
+enum Model: String, Codable, _DefaultsSerializable {
     case turbo = "gpt-3.5-turbo"
     case turbo31 = "gpt-3.5-turbo-0301"
     case gpt4 = "gpt-4"
@@ -48,7 +48,7 @@ public enum Model: String, Codable, _DefaultsSerializable {
 
 import Foundation
 
-public enum Role: String, Codable {
+enum Role: String, Codable {
     case system = "system"
     case user = "user"
     case assistant = "assistant"
