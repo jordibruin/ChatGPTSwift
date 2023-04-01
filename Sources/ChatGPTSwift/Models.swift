@@ -38,6 +38,14 @@ public struct Message: Convertable, Hashable, _DefaultsSerializable, Codable {
     }
 }
 
+
+// Enums
+public enum Model: String, Codable, _DefaultsSerializable {
+    case turbo = "gpt-3.5-turbo"
+    case turbo31 = "gpt-3.5-turbo-0301"
+    case gpt4 = "gpt-4"
+}
+
 extension Array where Element == Message {
     
     var contentCount: Int { map { $0.content }.count }
