@@ -47,7 +47,7 @@ public class ChatGPTAPI: @unchecked Sendable {
     }
     
     private func systemMessage(content: String) -> Message {
-        .init(role: "system", content: content)
+        .init(role: .system, content: content)
     }
     
     public init(apiKey: String) {
@@ -55,7 +55,7 @@ public class ChatGPTAPI: @unchecked Sendable {
     }
     
     private func generateMessages(from text: String, systemText: String) -> [Message] {
-        var messages = [systemMessage(content: systemText)] + historyList + [Message(role: "user", content: text)]
+        var messages = [systemMessage(content: systemText)] + historyList + [Message(role: .user, content: text)]
         if gptEncoder.encode(text: messages.content).count > 4096  {
             _ = historyList.removeFirst()
             messages = generateMessages(from: text, systemText: systemText)
@@ -72,8 +72,8 @@ public class ChatGPTAPI: @unchecked Sendable {
     }
     
     private func appendToHistoryList(userText: String, responseText: String) {
-        self.historyList.append(Message(role: "user", content: userText))
-        self.historyList.append(Message(role: "assistant", content: responseText))
+        self.historyList.append(Message(role: .user, content: userText))
+        self.historyList.append(Message(role: .assistant, content: responseText))
     }
     
     #if os(Linux)
